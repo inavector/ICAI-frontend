@@ -54,15 +54,3 @@ The application will be available at `http://localhost:5173`.
 ## Development Notes
 
 - API directory (`apps/api`) is currently empty
-
-## TODO
-
-- [ ] Integrate backend API for authentication
-- [ ] Implement interview session management
-- [ ] Add AI-powered interview question generation
-- [ ] Implement real-time feedback system
-- [ ] Add progress tracking and analytics
-- [ ] Connect to backend API for interview coach functionality
-- [ ] Add user profile management
-- [ ] Implement session history and review
-- [ ] Document path aliases configuration (`@components`, `@services`)

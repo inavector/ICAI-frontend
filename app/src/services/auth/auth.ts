@@ -81,15 +81,25 @@ export const getUserProfile = async (accessToken?: string): Promise<User> => {
   });
 
   if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('User profile endpoint not found. Please configure the endpoint in auth.ts');
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      data = { detail: `HTTP ${response.status}: ${response.statusText}` };
     }
-    const data = await response.json();
+    
     const error: ApiError = {
       status: response.status,
-      message: data.message || data.detail || 'Failed to fetch user profile',
+      message: data.message || data.detail || `Failed to fetch user profile (${response.status})`,
       errors: data.errors || {},
     };
+    
+    console.error('getUserProfile error:', {
+      status: response.status,
+      message: error.message,
+      url: `${API_BASE_URL}/api/user/`,
+    });
+    
     throw error;
   }
 

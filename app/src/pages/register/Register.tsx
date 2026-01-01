@@ -140,6 +140,8 @@ const Register: React.FC = () => {
         password: formData.password,
       });
 
+      console.log('Registration response:', response);
+
       if (response.access) {
         const decodedToken = decodeJWT(response.access);
         const userId = decodedToken?.user_id ? parseInt(decodedToken.user_id, 10) : 0;
@@ -153,9 +155,15 @@ const Register: React.FC = () => {
         authLogin(userData, response.access, response.refresh);
         navigate('/home');
       } else {
-        setError('Registration failed. Please try again.');
+        console.log('Registration successful but no tokens in response. Redirecting to login.');
+        navigate('/login', { 
+          state: { 
+            message: 'Registration successful! Please log in to continue.' 
+          } 
+        });
       }
     } catch (err) {
+      console.error('Registration error:', err);
       const apiError = err as ApiError;
       setError(apiError.message || 'Registration failed. Please try again.');
     } finally {

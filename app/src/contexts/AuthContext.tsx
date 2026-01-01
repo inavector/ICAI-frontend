@@ -55,9 +55,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               })
               .catch((err) => {
                 const apiError = err as ApiError;
+                console.warn('Failed to fetch fresh user profile:', apiError);
                 // If token expired (401), try to refresh it
                 if (apiError.status === 401) {
                   handleTokenExpiration();
+                } else if (apiError.status === 403) {
+                  // Forbidden - token might be invalid, try refresh
+                  handleTokenExpiration();
+                } else {
+                  // Other errors - keep using cached user data but log the error
+                  console.error('User profile fetch failed with status:', apiError.status, apiError.message);
                 }
               });
           } catch (error) {

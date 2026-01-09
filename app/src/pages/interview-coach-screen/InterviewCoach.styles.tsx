@@ -35,6 +35,14 @@ export const FormContainer = styled.div`
   animation: ${popIn} 0.5s ease-out;
   position: relative;
   overflow: visible;
+  width: 100%;
+  max-width: 800px;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 export const Title = styled.h1`
@@ -46,6 +54,11 @@ export const Title = styled.h1`
   animation: ${popIn} 0.5s ease-out;
   animation-delay: 0.1s;
   animation-fill-mode: both;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 export const FormGroup = styled.div<{ $delay?: number; $zIndex?: number }>`
@@ -55,6 +68,10 @@ export const FormGroup = styled.div<{ $delay?: number; $zIndex?: number }>`
   animation-fill-mode: both;
   position: relative;
   z-index: ${(props) => props.$zIndex || 'auto'};
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.25rem;
+  }
 `;
 
 export const Label = styled.label`
@@ -63,6 +80,11 @@ export const Label = styled.label`
   font-weight: 600;
   color: #475569;
   margin-bottom: 0.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    margin-bottom: 0.375rem;
+  }
 `;
 
 export const Select = styled.select`
@@ -80,6 +102,11 @@ export const Select = styled.select`
     outline: none;
     border-color: #9ca3af;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.625rem;
+    font-size: 0.9375rem;
+  }
 `;
 
 export const RadioGroup = styled.div`
@@ -89,6 +116,11 @@ export const RadioGroup = styled.div`
   gap: 0.5rem;
   width: 100%;
   flex-wrap: nowrap;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
 `;
 
 export const Tooltip = styled.div`
@@ -121,6 +153,12 @@ export const Tooltip = styled.div`
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-top-color: #0f172a;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    padding: 0.625rem 0.875rem;
+    max-width: 200px;
   }
 `;
 
@@ -164,6 +202,19 @@ export const ModeOptionContainer = styled.div<{ $color: string; $isSelected: boo
       visibility: visible;
     }
   }
+
+  @media (max-width: 768px) {
+    flex: 1 1 calc(50% - 0.375rem);
+    min-width: calc(50% - 0.375rem);
+    height: 36px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
 `;
 
 export const HiddenRadio = styled.input`
@@ -176,6 +227,10 @@ export const ModeLabel = styled.span`
   font-size: 1rem;
   text-align: center;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const SubmitButton = styled.button`
@@ -201,5 +256,11 @@ export const SubmitButton = styled.button`
 
   &:active {
     transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.875rem;
+    font-size: 1rem;
+    margin-top: 0.75rem;
   }
 `;

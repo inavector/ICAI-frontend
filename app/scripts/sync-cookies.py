@@ -290,7 +290,7 @@ def decrypt_cookie_value(encrypted_value, encryption_keys):
     
     return ''
 
-def extract_instagram_cookies():
+def sync_cookies():
     profiles = find_chrome_profiles()
     
     if not profiles:
@@ -347,7 +347,7 @@ def extract_instagram_cookies():
             
             if db_cookies:
                 email_str = f" ({profile['email']})" if profile['email'] else ''
-                print(f"Found {len(db_cookies)} Instagram cookies in profile: {profile['name']}{email_str}")
+                print(f"Found {len(db_cookies)} cookies in profile: {profile['name']}{email_str}")
                 found_profile = profile
                 
                 encryption_keys = get_chrome_encryption_keys()
@@ -425,54 +425,29 @@ def extract_instagram_cookies():
                 pass
     
     if not all_cookies:
-        print('No Instagram cookies found in any profile.')
-        print('Make sure you are logged into Instagram in Chrome.')
+        print('No cookies found in any profile.')
+        print('Make sure you are logged in Chrome.')
         return
     
     decrypted_count = sum(1 for c in all_cookies if c['value'])
     encrypted_count = len(all_cookies) - decrypted_count
     failed_count = sum(1 for c in all_cookies if not c['value'])
     
-    timestamp = __import__('datetime').datetime.now().isoformat().replace(':', '-').replace('.', '-')
-    filename = f'instagram-cookies-{timestamp}.json'
-    filepath = Path(__file__).parent.parent / filename
-    
-    output = {
-        'timestamp': __import__('datetime').datetime.now().isoformat() + 'Z',
-        'profile': {
-            'name': found_profile['name'],
-            'email': found_profile['email'],
-            'profileDir': found_profile['profileDir'],
-        },
-        'cookies': all_cookies,
-        'statistics': {
-            'totalCookies': len(all_cookies),
-            'decryptedCount': decrypted_count,
-            'encryptedCount': encrypted_count,
-            'failedCount': failed_count,
-        },
-    }
-    
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
-    
     email_str = f" ({found_profile['email']})" if found_profile['email'] else ''
-    print(f'\nExtracted {len(all_cookies)} Instagram cookies')
+    print(f'\nExtracted {len(all_cookies)} cookies')
     print(f"Profile: {found_profile['name']}{email_str}")
-    print(f'Decrypted: {decrypted_count}, Encrypted: {encrypted_count}, Failed: {failed_count}')
-    print(f'Saved to: {filepath}\n')
+    print(f'Decrypted: {decrypted_count}, Encrypted: {encrypted_count}, Failed: {failed_count}\n')
     
-    print('Instagram Cookies:')
+    print('Cookies:')
     for cookie in all_cookies:
-        value_preview = cookie['value'][:50] + '...' if cookie['value'] and len(cookie['value']) > 50 else (cookie['value'] if cookie['value'] else '(empty)')
-        print(f"  {cookie['name']}: {value_preview}")
+        print(f"  {cookie['name']}: {cookie['value'] if cookie['value'] else '(empty)'}")
 
 if __name__ == '__main__':
     if not CRYPTO_AVAILABLE:
         print('Warning: cryptography library not available. Encrypted cookies cannot be decrypted.')
         print('Install with: pip install cryptography')
     try:
-        extract_instagram_cookies()
+        sync_cookies()
     except KeyboardInterrupt:
         print('\nCancelled')
         sys.exit(0)

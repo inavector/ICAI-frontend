@@ -9,7 +9,7 @@ import {
 const Landing: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleStartClick = async (): Promise<void> => {
+  const handleStartClick = (): void => {
     navigate('/interview-coach');
   };
 

@@ -73,12 +73,10 @@ const InterviewSession: React.FC = () => {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const isMountedRef = useRef(true);
 
-  // Keep ref in sync to avoid stale closure bugs (dictation uses this)
   useEffect(() => {
     answersRef.current = answers;
   }, [answers]);
 
-  // Stop speech recognition on unmount
   useEffect(() => {
     isMountedRef.current = true;
     return () => {
@@ -94,7 +92,6 @@ const InterviewSession: React.FC = () => {
     (err: unknown) => {
       const apiError = err as ApiError;
 
-      // Guest access check
       if (apiError?.status === 403) {
         const guestToken = sessionId ? getInterviewToken(sessionId) : null;
         if (!isAuthenticated && !guestToken) {
@@ -103,7 +100,6 @@ const InterviewSession: React.FC = () => {
         }
       }
 
-      // Auth expired / invalid
       if (apiError?.status === 401 && isAuthenticated) {
         logout();
         navigate('/login', { state: { from: { pathname: `/interviews/${sessionId}` } } });
@@ -180,7 +176,6 @@ const InterviewSession: React.FC = () => {
         return;
       }
 
-      // stop any existing session first
       if (recognitionRef.current) {
         recognitionRef.current.stop();
         recognitionRef.current = null;
@@ -247,7 +242,6 @@ const InterviewSession: React.FC = () => {
 
         setSession(updatedSession);
         setAnsweringQuestionId(null);
-        // keep local answers in sync in case backend normalized/stored it
         hydrateAnswersFromSession(updatedSession);
       } catch (err) {
         if (!isMountedRef.current) return;
@@ -272,7 +266,6 @@ const InterviewSession: React.FC = () => {
       if (!isMountedRef.current) return;
 
       setSession(updatedSession);
-      // do not overwrite text user is currently typing; only hydrate answered ones
       hydrateAnswersFromSession(updatedSession);
     } catch (err) {
       if (!isMountedRef.current) return;

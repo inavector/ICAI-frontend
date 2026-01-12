@@ -1,5 +1,3 @@
-// Auth API Types
-
 export interface LoginRequest {
   email: string;
   password: string;

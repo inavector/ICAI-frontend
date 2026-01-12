@@ -38,7 +38,6 @@ const RoleAutocomplete: React.FC<RoleAutocompleteProps> = ({
     role.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Initialize searchTerm from value prop
   useEffect(() => {
     if (value && selectedRole) {
       setSearchTerm(selectedRole.label);
@@ -73,7 +72,6 @@ const RoleAutocomplete: React.FC<RoleAutocompleteProps> = ({
 
   const handleInputFocus = (): void => {
     setIsOpen(true);
-    // Show all options when focused, clear search to show all
     if (!searchTerm) {
       setSearchTerm('');
     }

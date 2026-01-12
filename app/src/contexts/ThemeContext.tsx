@@ -13,7 +13,6 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    // Check localStorage first, then system preference
     const stored = localStorage.getItem('darkMode');
     if (stored !== null) {
       return stored === 'true';
@@ -22,7 +21,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    // Apply theme to document
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {

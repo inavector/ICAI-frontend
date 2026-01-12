@@ -43,7 +43,6 @@ const UserMenu: React.FC = () => {
 
   const handleSettingsClick = (): void => {
     setIsOpen(false);
-    // TODO: Navigate to settings page when created
     console.log('Settings clicked');
   };
 

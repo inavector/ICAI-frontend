@@ -56,15 +56,6 @@ export const register = async (userData: RegisterRequest): Promise<AuthResponse>
   return handleResponse(response);
 };
 
-/**
- * Fetches the current user's profile from the backend.
- * 
- * Endpoint: GET /api/user/
- * 
- * Returns full user data including:
- * - id, email, first_name, last_name
- * - role, level, tech_stack
- */
 export const getUserProfile = async (accessToken?: string): Promise<User> => {
   const token = accessToken || getCookie('accessToken');
   
@@ -107,13 +98,6 @@ export const getUserProfile = async (accessToken?: string): Promise<User> => {
   return data;
 };
 
-/**
- * Refreshes the access token using the refresh token.
- * 
- * Endpoint: POST /api/auth/token/refresh/
- * 
- * Returns new access and refresh tokens.
- */
 export const refreshToken = async (refreshTokenValue: string): Promise<AuthResponse> => {
   const response = await fetch(`${API_BASE_URL}/api/auth/token/refresh/`, {
     method: 'POST',
@@ -126,15 +110,6 @@ export const refreshToken = async (refreshTokenValue: string): Promise<AuthRespo
   return handleResponse(response);
 };
 
-/**
- * Updates the current user's profile.
- * 
- * Endpoint: PUT /api/user/ or PATCH /api/user/
- * 
- * Updates user data including:
- * - first_name, last_name, email
- * - role, level, tech_stack
- */
 export const updateUserProfile = async (
   userData: UpdateUserProfileRequest,
   accessToken?: string

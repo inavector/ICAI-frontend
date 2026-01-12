@@ -1,4 +1,5 @@
-import { getCookie } from '../../utils/cookies';
+import { getCookie, setCookie } from '../../utils/cookies';
+import { refreshToken as refreshTokenFn } from '../auth/auth';
 import type {
   InterviewSessionListItem,
   InterviewSessionDetail,
@@ -31,9 +32,6 @@ const handleJson = async <T>(response: Response, retryCount = 0): Promise<T> => 
   if (!response.ok) {
     if (response.status === 401 && retryCount === 0) {
       try {
-        const { refreshToken: refreshTokenFn } = await import('../auth/auth');
-        const { getCookie, setCookie } = await import('../../utils/cookies');
-        
         const refreshTokenValue = getCookie('refreshToken');
         if (refreshTokenValue) {
           const refreshResponse = await refreshTokenFn(refreshTokenValue);

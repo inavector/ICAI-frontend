@@ -34,7 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [status, setStatus] = useState<AuthStatus>('loading');
 
   useEffect(() => {
-    // Check for stored authentication on mount
     const initializeAuth = async () => {
       setStatus('loading');
       const accessToken = getCookie('accessToken');
@@ -56,14 +55,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               .catch((err) => {
                 const apiError = err as ApiError;
                 console.warn('Failed to fetch fresh user profile:', apiError);
-                // If token expired (401), try to refresh it
                 if (apiError.status === 401) {
                   handleTokenExpiration();
                 } else if (apiError.status === 403) {
-                  // Forbidden - token might be invalid, try refresh
                   handleTokenExpiration();
                 } else {
-                  // Other errors - keep using cached user data but log the error
                   console.error('User profile fetch failed with status:', apiError.status, apiError.message);
                 }
               });
@@ -94,7 +90,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setStatus('authenticated');
                 setCookie('user', JSON.stringify(userData), 7);
               } else {
-                // Clear invalid data
                 removeCookie('user');
                 removeCookie('accessToken');
                 removeCookie('refreshToken');
@@ -103,7 +98,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             }
           }
         } else {
-          // Have token but no user data - try to fetch from backend
           try {
             const userData = await getUserProfile(accessToken);
             setUser(userData);
@@ -130,7 +124,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               setStatus('authenticated');
               setCookie('user', JSON.stringify(userData), 7);
             } else {
-              // Token might be invalid, clear it
               removeCookie('accessToken');
               removeCookie('refreshToken');
               setStatus('anonymous');
